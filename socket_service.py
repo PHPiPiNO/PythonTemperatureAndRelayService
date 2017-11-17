@@ -1,4 +1,14 @@
 #!/usr/bin/env python
+
+"""
+The following code is mainly based on the code found in this article:
+https://web.archive.org/web/20160305151936/http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+
+by Sander Marechal - @Prezent - https://github.com/sandermarechal
+
+And in this article:
+http://raspberrypirobot.blogspot.it/2012/10/socket-communications-php-to-python.html
+"""
  
 import sys, socket, serial, time
 from daemon import Daemon

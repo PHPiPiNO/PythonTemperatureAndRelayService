@@ -1,4 +1,3 @@
 .*.py.swp
 *.pyc
 socket_service.py
-test

@@ -1,5 +1,13 @@
 #!/usr/bin/env python
  
+"""
+The following code is a cut and paste from this article
+https://web.archive.org/web/20160305151936/http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+
+By Sander Marechal - @Prezent
+https://github.com/sandermarechal
+"""
+
 import sys, os, time, atexit
 from signal import SIGTERM
  
