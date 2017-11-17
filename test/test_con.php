@@ -14,7 +14,7 @@ function showHelp()
     return;
 }
     
-// We need exactely one parameter
+// We need exactly one parameter
 if(count($argv) != 2) {
     showHelp();
     return;
@@ -33,8 +33,6 @@ socket_write($socket, $argv[1]);
 
 # Read the response length
 $responseLength = ord(socket_read($socket, 1));
-#var_dump(ord($responseLength));
-#socket_close($socket);
 
 $response = socket_read($socket, $responseLength);
 
