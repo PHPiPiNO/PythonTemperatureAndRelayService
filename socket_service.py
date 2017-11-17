@@ -1,25 +1,41 @@
 #!/usr/bin/env python
  
-import sys, socket
+import sys, socket, serial, time
 from daemon import Daemon
  
 class TemperatureAndRelayServiceDaemon(Daemon):
     def run(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        ser = serial.Serial('/dev/ttyUSB0', 9600)
+        ser.timeout=2
+        time.sleep(2)
+
+        # Read the System ready string
+        ser.readline()
+
         #s.bind((socket.gethostname(), 7999))
-        s.bind(('127.0.0.1', 7999))
-        s.listen(1) # One connection at time is enough
+        soc.bind(('127.0.0.1', 7999))
+        soc.listen(1) # One connection at time is enough
 
         while True:
-            (clientsocket, address) = s.accept()
-            pckLen = clientsocket.recv(1)
+            (clientsocket, address) = soc.accept()
 
-            if len(packageLength) == 0:
-                break
+            # We aspect to receive a one character length command:
+            command = str(clientsocket.recv(1))
 
-            pckLen = ord(pckLen)
-            command = clientsocket.recv(pckLen)
-            clientsocket.send('tutto bene!')
+            # Let's see if the serial is still open
+            if(ser.isOpen() == False):
+                ser.open()
+                time.sleep(1)
+
+            ser.write(command)
+            time.sleep(0.3)
+            res = ser.readline().rstrip()
+
+            # Send the response length
+            clientsocket.send(chr(len(res)))
+            # Send the response
+            clientsocket.send(res)
             clientsocket.close()
 
 if __name__ == "__main__":
