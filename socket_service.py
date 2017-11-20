@@ -23,8 +23,8 @@ class TemperatureAndRelayServiceDaemon(Daemon):
         # Read the System ready string
         ser.readline()
 
-        #s.bind((socket.gethostname(), 7999))
-        soc.bind(('127.0.0.1', 7999))
+        #Listen on all addresses
+        soc.bind(('0.0.0.0', 7999))
         soc.listen(1) # One connection at time is enough
 
         while True:
@@ -37,6 +37,8 @@ class TemperatureAndRelayServiceDaemon(Daemon):
             if(ser.isOpen() == False):
                 ser.open()
                 time.sleep(1)
+                # Read the System ready string
+                ser.readline()
 
             ser.write(command)
             time.sleep(0.3)
